@@ -30,7 +30,7 @@ def knight_moves(start, dest, board_max)
         dist = node.dist
 
         if (x == dest.x) && (y == dest.y) 
-            return dist
+            return "knight moves( [#{start.x}, #{start.y}], [#{start.x}, #{start.y}]  ) == #{node.path.to_s}"
         end
 
         if !has_node?(visited, node)
@@ -41,16 +41,18 @@ def knight_moves(start, dest, board_max)
                 y_i = y + dy[i]
 
                 if valid?(x_i, y_i, board_max)
-                    queue.push(Node.new(x_i, y_i, dist + 1))
+                    path = node.path.map(&:clone)
+                    path.push([x_i, y_i])
+                    queue.push(Node.new(x_i, y_i, dist + 1, path))
                 end
             end
         end
     end
-    return path.to_s
+    return -1
 end
 
-start = Node.new(3,3)
-dest = Node.new(7,7)
+start = Node.new(0,0)
+dest = Node.new(1,2)
 
 puts knight_moves(start, dest, BOARD_MAX)
 
